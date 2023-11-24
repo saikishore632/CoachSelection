@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [userEmail, setUserEmail] = useState();
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -15,27 +18,22 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:4003/api/login', formData);
-      
-    
-      // Check if the login was successful (you might have a different way to verify this)
-      if (response.status === 200) {
-        console.log("Sai kishore is here at navigation");
-        // console.log(response);
-        // const userEmail = response.config.adapter.data.email;
-        // console.log('User email:', userEmail);
-        // Redirect to the home page after successful login
-        navigate("/home")
+
+      if (response.status === 200 && response.data.message === 'Login successful') {
+        // Redirect to the home page with userEmail passed as state
+        //console.log("now:", response.data.email);
+        await setUserEmail(response.data.email);
+        console.log("now:", userEmail);
+        navigate('/home', { state: { userEmail: response.data.email } });
+
+      } else {
+        // Handle other cases if needed
       }
-      // const handleLogin = (userData) => {
-      //   // Assuming 'userData' is the user info obtained from the API
-      //   setUser(userData); // Call 'setUser' to update user info in the context
-        
-      // };
     } catch (error) {
+      console.error('Error during login:', error);
       // Handle error (e.g., display error message)
     }
   };
-  
   
   return (
     <form onSubmit={handleSubmit}>

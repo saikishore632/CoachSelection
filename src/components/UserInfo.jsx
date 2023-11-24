@@ -9,8 +9,8 @@ const UserInfo = () => {
 
   return (
     <div>
-      <img src={user.logoUrl} alt="User Logo" />
-      <p>{user.name}</p>
+      {/* <img src={user.logoUrl} alt="User Logo" />
+      <p>{user.name}</p> */}
     </div>
   );
 };
