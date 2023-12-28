@@ -23,7 +23,6 @@ const LoginForm = () => {
         // Redirect to the home page with userEmail passed as state
         //console.log("now:", response.data.email);
         await setUserEmail(response.data.email);
-        console.log("now:", userEmail);
         navigate('/home', { state: { userEmail: response.data.email } });
 
       } else {
